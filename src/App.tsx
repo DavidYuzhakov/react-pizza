@@ -19,23 +19,23 @@ function App() {
   return ( 
     <Routes>
       <Route path="/" element={ <MainLayouts /> }>
-        <Route path="" element={<Home />} />
-        <Route path="cart" element={
-          <Suspense fallback={<Loading />}>
-            <Cart />
-          </Suspense>
-        } />
-        <Route path="pizza/:id" element={
-          <Suspense fallback={<Loading />}>
-            <FullPizza />
-          </Suspense>
-        } />
-        <Route path="*" element={
-          <Suspense fallback={<Loading />}>
-            <NotFound />
-          </Suspense>
-        } />
-      </Route>
+      <Route path="" element={<Home />} />
+      <Route path="cart" element={
+        <Suspense fallback={<Loading />}>
+          <Cart />
+        </Suspense>
+      } />
+      <Route path="pizza/:id" element={
+        <Suspense fallback={<Loading />}>
+          <FullPizza />
+        </Suspense>
+      } />
+      <Route path="*" element={
+        <Suspense fallback={<Loading />}>
+          <NotFound />
+        </Suspense>
+      } />
+    </Route>
     </Routes>
   );
 }
