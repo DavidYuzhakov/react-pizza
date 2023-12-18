@@ -38,6 +38,8 @@ export function PizzaBlock({ id, title, price, imageUrl, sizes, types }: PizzaBl
     dispatch(addItem(item))
   }
 
+  console.log(types)
+
   return (
     <div className="pizza-block">
       <Link to={`/pizza/${id}`}>
@@ -50,12 +52,12 @@ export function PizzaBlock({ id, title, price, imageUrl, sizes, types }: PizzaBl
       <h4 className="pizza-block__title">{ title }</h4>
       <div className="pizza-block__selector">
         <ul>
-          {types.map((type) => (
+          {types.map((type, i) => (
             <li 
-              key={type}
-              className={typeActive === type ? 'active' : ''}
+              key={i}
+              className={types.length > 1 ? typeActive === type ? 'active' : '' : 'active'}
               onClick={() => setTypeActive(type)}
-            >{typesNames[type]}</li> 
+              >{typesNames[type]}</li> 
           ))}
         </ul>
         <ul>

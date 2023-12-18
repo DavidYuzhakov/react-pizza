@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import qs from "qs";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { useAppDispatch } from "../redux/store";
 import { selectFilter } from "../redux/slices/filter/selectors";
@@ -16,6 +16,7 @@ import { list } from "../components/Sort";
 export function Home() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const location = useLocation()
 
   const isSearch = useRef(false); // не отправлять запрос 2 раза, если True то отправлять, когда в url ничего нет
   const isMounted = useRef(false); // на 2 рендер выполнять дейстивие
@@ -23,6 +24,7 @@ export function Home() {
   const { items, status } = useSelector(selectPizzaData);
   const { categoryId, sort, pageCount } = useSelector(selectFilter);
   const { searchValue } = useSelector(selectFilter);
+
 
   const onChangeCategory = useCallback((id: number) => {
     dispatch(setCategoryId(id));
@@ -33,6 +35,7 @@ export function Home() {
     const orderUrl = sort.sortProperty.includes("-") ? "ask" : "desc";
     const categoryUrl = categoryId > 0 ? `category=${categoryId}` : "";
     const searchUrl = searchValue ? `&search=${searchValue}` : "";
+
     dispatch(
       fetchPizzas({
         sortUrl,
@@ -43,6 +46,7 @@ export function Home() {
       })
     );
   }
+ 
 
   useEffect(() => {
     interface IParams {
@@ -52,11 +56,12 @@ export function Home() {
       sortProperty: string;
     }
 
-    if (window.location.search) {
+    if (location.search) { // for BrowserRouter you can use window.location.search
       // если в url что то есть, то будем парсить
       const params = qs.parse(
-        window.location.search.substring(1)
+        location.search.substring(1)
       ) as unknown as IParams;
+        
       const sort = list.find((obj) => obj.sortProperty === params.sortProperty);
 
       dispatch(
